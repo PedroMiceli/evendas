@@ -1,0 +1,51 @@
+<button type="button" id="btn-deleteTaxaModal" class="btn" data-bs-toggle="modal" data-bs-target="#deleteTaxaModal" style="display:none"></button>
+<!-- Modal -->
+<div class="modal fade" id="deleteTaxaModal" tabindex="-1" aria-labelledby="deleteTaxaModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteTaxaModalLabel">
+                    Excluir
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="idTaxa" name="idTaxa" value="">
+                <div class="row">
+                    <p>
+                        Deseja realmente excluir este modelo de taxa?
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-danger" onclick="excluirTaxa()">Excluir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script type="text/javascript">
+    function excluirTaxa(){
+        loading('show', undefined);
+        $.ajax({
+            url: '/taxa/delete',
+            type: 'POST',
+            data: { idTaxa: $('#idTaxa').val() },
+            success: function (response) {
+                if (response.ok) {
+                    location.reload()
+                } else {
+                    showNotification(response.message, false);
+                }
+                $('#btn-deleteTaxaModal').click();
+                loading('hide', undefined);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                showNotification('Erro ao excluir!', false);
+                loading('hide', undefined);
+            }
+        });
+    }
+</script>

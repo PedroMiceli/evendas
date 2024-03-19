@@ -1,0 +1,51 @@
+<button type="button" id="btn-deleteEstoqueModal" class="btn" data-bs-toggle="modal" data-bs-target="#deleteEstoqueModal" style="display:none"></button>
+<!-- Modal -->
+<div class="modal fade" id="deleteEstoqueModal" tabindex="-1" aria-labelledby="deleteEstoqueModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteEstoqueModalLabel">
+                    Excluir
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="idEstoque" name="idEstoque" value="">
+                <div class="row">
+                    <p>
+                        Deseja realmente excluir este registro de produtos no  estoque?
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-danger" onclick="excluirEstoque()">Excluir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script type="text/javascript">
+    function excluirEstoque(){
+        loading('show', undefined);
+        $.ajax({
+            url: '/estoque/delete',
+            type: 'POST',
+            data: { idEstoque: $('#idEstoque').val() },
+            success: function (response) {
+                if (response.ok) {
+                    location.reload()
+                } else {
+                    showNotification(response.message, false);
+                }
+                $('#btn-deleteEstoqueModal').click();
+                loading('hide', undefined);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                showNotification('Erro ao excluir!', false);
+                loading('hide', undefined);
+            }
+        });
+    }
+</script>

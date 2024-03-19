@@ -1,0 +1,51 @@
+<button type="button" id="btn-deleteCustoFixoModal" class="btn" data-bs-toggle="modal" data-bs-target="#deleteCustoFixoModal" style="display:none"></button>
+<!-- Modal -->
+<div class="modal fade" id="deleteCustoFixoModal" tabindex="-1" aria-labelledby="deleteCustoFixoModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteCustoFixoModalLabel">
+                    Excluir
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="idCustoFixo" name="idCustoFixo" value="">
+                <div class="row">
+                    <p>
+                        Deseja realmente excluir este custo fixo?
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-danger" onclick="excluirCustoFixo()">Excluir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script type="text/javascript">
+    function excluirCustoFixo(){
+        loading('show', undefined);
+        $.ajax({
+            url: '/custoFixo/delete',
+            type: 'POST',
+            data: { idCustoFixo: $('#idCustoFixo').val() },
+            success: function (response) {
+                if (response.ok) {
+                    location.reload()
+                } else {
+                    showNotification(response.message, false);
+                }
+                $('#btn-deleteCustoFixoModal').click();
+                loading('hide', undefined);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                showNotification('Erro ao excluir!', false);
+                loading('hide', undefined);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,81 @@
+<div class="form-container-fechamento">
+    <form id="form-estoque" enctype="multipart/form-data" class="col-md-8 col-10 mx-auto">
+        <input type="hidden" id="idEstoque" name="idEstoque" th:attr="value=${estoque?.id}">
+
+        <div class="row d-flex justify-content-center">
+
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label" for="produto">Produto</label>
+                    <select class="form-control" id="produto" name="produto">
+                        <option th:each="produto : ${produtos}" th:value="${produto.value}" th:text="${produto.key}"
+                                th:selected="${produto.value == estoque.produto?.id}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label" for="quantidade">Quantidade</label>
+                    <input type="text" class="form-control" id="quantidade" name="quantidade" th:attr="value=${estoque?.quantidade}" required>
+                </div>
+            </div>
+
+        </div>
+
+        <button type="button" onclick="save()" class="btn btn-success w-25 float-end mt-2 ms-2">
+            Salvar
+        </button>
+        <button type="button" onclick="redirect('/estoque')" class="btn btn-secondary w-25 float-end mt-2">
+            Cancelar
+        </button>
+    </form>
+</div>
+
+<!-- Scripts -->
+<script type="text/javascript">
+    $(document).ready(function() {
+
+    });
+
+    function save() {
+        if (!$("#form-estoque").valid()) {
+            return;
+        }
+        loading('show', undefined);
+
+        var dados = {
+            id: $('#idEstoque').val(),
+            produto: $('#produto').val(),
+            quantidade: $('#quantidade').val(),
+        };
+
+        var estoqueJson = JSON.stringify(dados);
+
+        var formData = new FormData();
+        formData.append('estoque', estoqueJson);
+
+        $.ajax({
+            url: '/estoque/save',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response.ok) {
+                    redirect('/estoque');
+                }
+                else {
+                    showNotification(response.message, false);
+                    loading('hide', undefined);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                showNotification('Erro ao salvar!', false);
+                loading('hide', undefined);
+            }
+        });
+    }
+
+</script>

@@ -1,0 +1,36 @@
+<div th:replace="shared/header"></div>
+
+<section class="partial_estoques">
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="row d-flex align-items-center">
+                <div class="col-8">
+                    <h2>Estoque</h2>
+                </div>
+                <div class="col-4 div-btn-new">
+                    <button type="button" th:if="${hasProdutosDisponiveis}" onclick="redirectPartial($('.partial_estoques'),'/estoque/create')"
+                            class="btn btn-success float-end">
+                        <i class="fa-solid fa-plus me-1"></i> Adicionar Produto no estoque
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="list_estoques"></section>
+</section>
+<div th:replace="shared/footer"></div>
+
+<script>
+    $(document).ready(function() {
+        obterEstoque();
+    });
+
+    async function obterEstoque() {
+        loading('show', '.list_estoques');
+        $(".list_estoques").load("/estoque/getAll", function(result){
+            definirDataTables($('#table-estoque'));
+            loading('hide', '.list_estoques');
+        });
+    }
+
+</script>

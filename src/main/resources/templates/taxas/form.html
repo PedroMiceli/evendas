@@ -1,0 +1,84 @@
+<div class="form-container-fechamento">
+    <form id="form-taxa" enctype="multipart/form-data" class="col-md-8 col-10 mx-auto">
+        <input type="hidden" id="idTaxa" name="idTaxa" th:attr="value=${taxa?.id}">
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label" for="nome">Nome</label>
+                    <input type="text" class="form-control" id="nome" name="nome" th:attr="value=${taxa?.nome}" required>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label" for="porcentagemInicial">Taxa Minima (Em %)</label>
+                    <input type="text" class="form-control percent-mask" id="porcentagemInicial" name="porcentagemInicial" th:attr="value=${taxa?.porcentagemInicial}" required>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label" for="porcentagemFinal">Taxa Maxima (Em %)</label>
+                    <input type="text" class="form-control percent-mask" id="porcentagemFinal" name="porcentagemFinal" th:attr="value=${taxa?.porcentagemFinal}" required>
+                </div>
+            </div>
+
+        </div>
+
+        <button type="button" onclick="save()" class="btn btn-success w-25 float-end mt-2 ms-2">
+            Salvar
+        </button>
+        <button type="button" onclick="redirect('/calculos')" class="btn btn-secondary w-25 float-end mt-2">
+            Cancelar
+        </button>
+    </form>
+</div>
+
+<!-- Scripts -->
+<script type="text/javascript">
+    $(document).ready(function() {
+
+    });
+
+    function save() {
+        if (!$("#form-taxa").valid()) {
+            return;
+        }
+        loading('show', undefined);
+
+        var dados = {
+            id: $('#idTaxa').val(),
+            nome: $('#nome').val(),
+            porcentagemInicial: $('#porcentagemInicial').val(),
+            porcentagemFinal: $('#porcentagemFinal').val(),
+
+        };
+
+        var taxaJson = JSON.stringify(dados);
+
+        var formData = new FormData();
+        formData.append('taxa', taxaJson);
+
+        $.ajax({
+            url: '/taxa/save',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response.ok) {
+                    redirect('/calculos');
+                }
+                else {
+                    showNotification(response.message, false);
+                    loading('hide', undefined);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                showNotification('Erro ao salvar!', false);
+                loading('hide', undefined);
+            }
+        });
+    }
+
+</script>

@@ -1,0 +1,82 @@
+<div class="form-container-fechamento">
+    <form id="form-produto" enctype="multipart/form-data" class="col-md-8 col-10 mx-auto">
+        <input type="hidden" id="idProduto" name="idProduto" th:attr="value=${produto?.id}">
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label" for="produto">Nome</label>
+                    <input type="text" class="form-control" id="produto" name="produto" th:attr="value=${produto?.produto}" required>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label" for="sku">SKU</label>
+                    <input type="text" class="form-control" id="sku" name="sku" th:attr="value=${produto?.sku}" required>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label" for="preco">Preço de custo</label>
+                    <input type="text" class="form-control money-mask" id="preco" name="preco" th:attr="value=${produto?.preco}" required>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" onclick="save()" class="btn btn-success w-25 float-end mt-2 ms-2">
+            Salvar
+        </button>
+        <button type="button" onclick="redirect('/produto')" class="btn btn-secondary w-25 float-end mt-2">
+            Cancelar
+        </button>
+    </form>
+</div>
+
+<!-- Scripts -->
+<script type="text/javascript">
+    $(document).ready(function() {
+
+    });
+
+    function save() {
+        if (!$("#form-produto").valid()) {
+            return;
+        }
+        loading('show', undefined);
+
+        var dados = {
+            id: $('#idProduto').val(),
+            produto: $('#produto').val(),
+            sku: $('#sku').val(),
+            preco: parseFloat($('#preco').val()),
+        };
+
+        var produtoJson = JSON.stringify(dados);
+
+        var formData = new FormData();
+        formData.append('produto', produtoJson);
+
+        $.ajax({
+            url: '/produto/save',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response.ok) {
+                    redirect('/produto');
+                }
+                else {
+                    showNotification(response.message, false);
+                    loading('hide', undefined);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                showNotification('Erro ao salvar!', false);
+                loading('hide', undefined);
+            }
+        });
+    }
+
+</script>

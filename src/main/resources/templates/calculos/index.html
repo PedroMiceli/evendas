@@ -1,0 +1,50 @@
+<div th:replace="shared/header"></div>
+
+<section class="partial_calculos">
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="row d-flex align-items-center">
+                <div class="col-8">
+                    <h2>Calculos</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="list_taxas"></section>
+    <section class="list_impostos"></section>
+    <section class="list_custos_fixos"></section>
+</section>
+<div th:replace="shared/footer"></div>
+
+<script>
+    $(document).ready(function() {
+        obterTaxas();
+        obterImpostos();
+        obterCustosFixos();
+    });
+
+    async function obterImpostos() {
+        loading('show', '.list_impostos');
+        $(".list_impostos").load("/imposto/getAll", function(result){
+            definirDataTablesNotButtons($('#table-impostos'));
+            loading('hide', '.list_impostos');
+        });
+    }
+
+    async function obterTaxas() {
+        loading('show', '.list_taxas');
+        $(".list_taxas").load("/taxa/getAll", function(result){
+            definirDataTablesNotButtons($('#table-taxas'));
+            loading('hide', '.list_taxas');
+        });
+    }
+
+    async function obterCustosFixos() {
+        loading('show', '.list_custos_fixos');
+        $(".list_custos_fixos").load("/custoFixo/getAll", function(result){
+            definirDataTablesNotButtons($('#table-custoFixo'));
+            loading('hide', '.list_custos_fixos');
+        });
+    }
+
+</script>
