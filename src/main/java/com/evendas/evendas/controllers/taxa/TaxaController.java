@@ -1,8 +1,8 @@
 package com.evendas.evendas.controllers.taxa;
 
 import com.evendas.evendas.controllers.BaseController;
-import com.evendas.evendas.models.custosFixos.CustoFixo;
-import com.evendas.evendas.models.valores.Taxa;
+import com.evendas.evendas.models.taxa.Taxa;
+import com.evendas.evendas.models.taxa.TaxaDTO;
 import com.evendas.evendas.services.interfaces.ITaxaServices;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +23,11 @@ public class TaxaController extends BaseController {
     @GetMapping("/create")
     public ModelAndView create(@RequestParam(required = false) UUID idTaxa)throws Exception {
 
-        Taxa taxa = new Taxa();
+        TaxaDTO taxa = new TaxaDTO();
         if (idTaxa != null)
             taxa =taxaServices.getOneById(idTaxa);
 
-        ModelAndView modelAndView = new ModelAndView("taxa/form");
+        ModelAndView modelAndView = new ModelAndView("taxas/form");
         modelAndView.addObject("taxa", taxa);
         return modelAndView;
     }
@@ -46,7 +46,7 @@ public class TaxaController extends BaseController {
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestParam("taxa") String taxaJson) throws Exception {
         try {
-            Taxa taxa = new ObjectMapper().readValue(taxaJson, Taxa.class);
+            TaxaDTO taxa = new ObjectMapper().readValue(taxaJson, TaxaDTO.class);
             taxaServices.save(taxa);
 
             return responseOk("Salvo com sucesso!");

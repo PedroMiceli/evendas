@@ -33,6 +33,20 @@ public class EstoqueServices implements IEstoqueServices {
     }
 
     @Override
+    public float getTotalValorEstoque() throws Exception {
+        try {
+            List<Estoque> estoques = getAll();
+            float valorTotal = 0;
+            for (Estoque estoque:estoques) {
+                valorTotal = valorTotal+estoque.getValue();
+            }
+            return valorTotal;
+        }catch (Exception ex){
+            throw new Exception(ex.getMessage());
+        }
+    }
+
+    @Override
     public Estoque getOneById(UUID id) throws Exception {
         try {
             return estoqueRepository.findById(id).get();

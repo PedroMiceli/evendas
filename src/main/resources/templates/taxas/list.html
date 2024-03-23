@@ -34,10 +34,10 @@
                             <spaan th:text="${taxa.nome}"></spaan>
                         </td>
                         <td>
-                            <spaan th:text="${taxa.porcentagemInicial}"></spaan>
+                            <spaan th:text="${taxa.porcentagemInicialStr}"></spaan>
                         </td>
                         <td>
-                            <spaan th:text="${taxa.porcentagemFinal}"></spaan>
+                            <spaan th:text="${taxa.porcentagemFinalStr}"></spaan>
                         </td>
                         <td>
                             <button type="button" class="btn btn-info"
@@ -58,7 +58,7 @@
     </div>
 </div>
 
-<div th:replace="custoFixo/delete"></div>
+<div th:replace="taxas/delete"></div>
 
 <!-- Scripts -->
 <script type="text/javascript">

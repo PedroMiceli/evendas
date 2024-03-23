@@ -18,7 +18,7 @@
             <div class="col-4">
                 <div class="mb-3">
                     <label class="form-label" for="preco">Preço de custo</label>
-                    <input type="text" class="form-control money-mask" id="preco" name="preco" th:attr="value=${produto?.preco}" required>
+                    <input type="text" class="form-control money-mask" id="preco" name="preco" th:attr="value=${produto?.precoStr}" required>
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
             id: $('#idProduto').val(),
             produto: $('#produto').val(),
             sku: $('#sku').val(),
-            preco: parseFloat($('#preco').val()),
+            precoStr: parseFloat($('#preco').val()),
         };
 
         var produtoJson = JSON.stringify(dados);

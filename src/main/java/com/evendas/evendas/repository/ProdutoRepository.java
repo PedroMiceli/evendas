@@ -1,7 +1,6 @@
 package com.evendas.evendas.repository;
 
 import com.evendas.evendas.models.produto.Produto;
-import com.evendas.evendas.models.valores.Imposto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -12,6 +12,8 @@ public interface IEstoqueServices {
 
     List<Estoque> getAll()throws Exception;
 
+    float getTotalValorEstoque()throws Exception;
+
     Estoque getOneById(UUID id) throws Exception;
 
     void delete(UUID idEstoque)throws Exception;

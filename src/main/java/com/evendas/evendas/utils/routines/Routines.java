@@ -1,5 +1,6 @@
 package com.evendas.evendas.utils.routines;
 
+import java.text.DecimalFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -7,6 +8,30 @@ import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 
 public class Routines {
+
+    public static String percentFormatterFloatToString(float numero){
+        try {
+            DecimalFormat decimalFormat = new DecimalFormat("0.00");
+            return decimalFormat.format(numero) + "%";
+        }catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public static float percentFormatterStringToFloat(String percentage){
+        try {
+            // Remove o símbolo de porcentagem
+            String numericPart = percentage.replace("%", "").trim();
+
+            // Substitui a vírgula por ponto para garantir o formato correto para conversão
+            numericPart = numericPart.replace(",", ".");
+
+            // Converte a string para float
+            return Float.parseFloat(numericPart);
+        }catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
 
     public static LocalDate localDateFormatter(String dateString) {
         try {

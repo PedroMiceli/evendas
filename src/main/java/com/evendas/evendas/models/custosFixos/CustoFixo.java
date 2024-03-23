@@ -1,6 +1,7 @@
 package com.evendas.evendas.models.custosFixos;
 
 import com.evendas.evendas.models.BaseEntity;
+import com.evendas.evendas.utils.routines.Routines;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,7 @@ public class CustoFixo extends BaseEntity {
     public CustoFixo() {
     }
 
-    public CustoFixo(UUID id, String nome, float custoMensal) {
+    public CustoFixo(UUID id, String nome, Float custoMensal) {
         this.setId(id);
         this.nome = nome;
         this.custoMensal = custoMensal;

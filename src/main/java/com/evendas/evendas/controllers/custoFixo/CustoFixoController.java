@@ -1,10 +1,8 @@
 package com.evendas.evendas.controllers.custoFixo;
 
 import com.evendas.evendas.controllers.BaseController;
-import com.evendas.evendas.models.custosFixos.CustoFixo;
-import com.evendas.evendas.models.valores.Imposto;
+import com.evendas.evendas.models.custosFixos.CustoFixoDTO;
 import com.evendas.evendas.services.interfaces.ICustoFixoServices;
-import com.evendas.evendas.services.interfaces.IImpostoServices;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +21,7 @@ public class CustoFixoController extends BaseController {
     @GetMapping("/create")
     public ModelAndView create(@RequestParam(required = false) UUID idCustoFixo)throws Exception {
 
-        CustoFixo custoFixo = new CustoFixo();
+        CustoFixoDTO custoFixo = new CustoFixoDTO();
         if (idCustoFixo != null)
             custoFixo =custoFixoServices.getOneById(idCustoFixo);
 
@@ -46,8 +44,8 @@ public class CustoFixoController extends BaseController {
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestParam("custoFixo") String custoFixoJson) throws Exception {
         try {
-            CustoFixo custoFixo = new ObjectMapper().readValue(custoFixoJson, CustoFixo.class);
-            custoFixoServices.save(custoFixo);
+            CustoFixoDTO custoFixo = new ObjectMapper().readValue(custoFixoJson, CustoFixoDTO.class);
+            custoFixoServices.save(custoFixo.originalObject());
 
             return responseOk("Salvo com sucesso!");
         } catch (Exception ex) {

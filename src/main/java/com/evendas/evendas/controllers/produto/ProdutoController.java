@@ -2,6 +2,7 @@ package com.evendas.evendas.controllers.produto;
 
 import com.evendas.evendas.controllers.BaseController;
 import com.evendas.evendas.models.produto.Produto;
+import com.evendas.evendas.models.produto.ProdutoDTO;
 import com.evendas.evendas.services.interfaces.IProdutoServices;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class ProdutoController extends BaseController {
     @GetMapping("/create")
     public ModelAndView create(@RequestParam(required = false) UUID idProduto)throws Exception {
 
-        Produto produto = new Produto();
+        ProdutoDTO produto = new ProdutoDTO();
         if (idProduto != null)
             produto =produtoServices.getOneById(idProduto);
 
@@ -50,7 +51,7 @@ public class ProdutoController extends BaseController {
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestParam("produto") String produtoJson) throws Exception {
         try {
-            Produto produto = new ObjectMapper().readValue(produtoJson, Produto.class);
+            ProdutoDTO produto = new ObjectMapper().readValue(produtoJson, ProdutoDTO.class);
             produtoServices.save(produto);
 
             return responseOk("Salvo com sucesso!");

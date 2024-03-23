@@ -45,6 +45,16 @@
     </div>
 </div>
 
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="row d-flex align-items-center">
+            <div class="col-8">
+                <h2 th:text="${'Valor total em estoque: R$'+valorTotal}"></h2>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div th:replace="estoque/delete"></div>
 
 <!-- Scripts -->

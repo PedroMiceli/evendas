@@ -1,4 +1,4 @@
-<div class="form-container-fechamento">
+<div class="form-container-taxa">
     <form id="form-taxa" enctype="multipart/form-data" class="col-md-8 col-10 mx-auto">
         <input type="hidden" id="idTaxa" name="idTaxa" th:attr="value=${taxa?.id}">
 
@@ -12,13 +12,13 @@
             <div class="col-4">
                 <div class="mb-3">
                     <label class="form-label" for="porcentagemInicial">Taxa Minima (Em %)</label>
-                    <input type="text" class="form-control percent-mask" id="porcentagemInicial" name="porcentagemInicial" th:attr="value=${taxa?.porcentagemInicial}" required>
+                    <input type="text" class="form-control percent-mask" id="porcentagemInicial" name="porcentagemInicial" th:attr="value=${taxa?.porcentagemInicialStr}" required>
                 </div>
             </div>
             <div class="col-4">
                 <div class="mb-3">
                     <label class="form-label" for="porcentagemFinal">Taxa Maxima (Em %)</label>
-                    <input type="text" class="form-control percent-mask" id="porcentagemFinal" name="porcentagemFinal" th:attr="value=${taxa?.porcentagemFinal}" required>
+                    <input type="text" class="form-control percent-mask" id="porcentagemFinal" name="porcentagemFinal" th:attr="value=${taxa?.porcentagemFinalStr}" required>
                 </div>
             </div>
 
@@ -48,8 +48,8 @@
         var dados = {
             id: $('#idTaxa').val(),
             nome: $('#nome').val(),
-            porcentagemInicial: $('#porcentagemInicial').val(),
-            porcentagemFinal: $('#porcentagemFinal').val(),
+            porcentagemInicialStr: $('#porcentagemInicial').val(),
+            porcentagemFinalStr: $('#porcentagemFinal').val(),
 
         };
 

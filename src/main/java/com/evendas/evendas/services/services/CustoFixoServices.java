@@ -1,12 +1,13 @@
 package com.evendas.evendas.services.services;
 
 import com.evendas.evendas.models.custosFixos.CustoFixo;
-import com.evendas.evendas.models.valores.Imposto;
+import com.evendas.evendas.models.custosFixos.CustoFixoDTO;
 import com.evendas.evendas.repository.CustoFixoRepository;
 import com.evendas.evendas.services.interfaces.ICustoFixoServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,18 +18,24 @@ public class CustoFixoServices implements ICustoFixoServices {
     private CustoFixoRepository custoFixoRepository;
 
     @Override
-    public List<CustoFixo> getAll() throws Exception {
+    public List<CustoFixoDTO> getAll() throws Exception {
         try {
-            return custoFixoRepository.findAllByDataExcluidoIsNull();
+            List<CustoFixoDTO> custos = new ArrayList<>();
+
+            for (CustoFixo custoFixo:custoFixoRepository.findAllByDataExcluidoIsNull()) {
+                custos.add(new CustoFixoDTO(custoFixo));
+            }
+
+            return custos;
         }catch (Exception ex){
             throw new Exception(ex.getMessage());
         }
     }
 
     @Override
-    public CustoFixo getOneById(UUID id) throws Exception {
+    public CustoFixoDTO getOneById(UUID id) throws Exception {
         try {
-            return custoFixoRepository.findById(id).get();
+            return new CustoFixoDTO(custoFixoRepository.findById(id).get());
         }catch (Exception ex){
             throw new Exception(ex.getMessage());
         }

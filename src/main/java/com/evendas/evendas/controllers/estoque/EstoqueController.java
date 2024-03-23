@@ -49,6 +49,7 @@ public class EstoqueController extends BaseController {
         try {
             ModelAndView modelAndView = new ModelAndView("estoque/list");
             modelAndView.addObject("estoques", estoqueServices.getAll());
+            modelAndView.addObject("valorTotal", estoqueServices.getTotalValorEstoque());
             return modelAndView;
         }catch (Exception ex){
             throw new Exception(ex.getMessage());
