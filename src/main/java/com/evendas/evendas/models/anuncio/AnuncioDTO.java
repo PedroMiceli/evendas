@@ -33,6 +33,8 @@ public class AnuncioDTO extends Anuncio{
         this.impostoDTO = new ImpostoDTO(anuncio.getImposto());
         this.taxaDTO = new TaxaDTO(anuncio.getTaxa());
         this.freteStr = Routines.floatStringFormatter(anuncio.getFrete());
+        this.setFrete(anuncio.getFrete());
+        this.setValorVenda(anuncio.getValorVenda());
     }
 
     public Anuncio originalObject()throws Exception{
@@ -73,6 +75,18 @@ public class AnuncioDTO extends Anuncio{
 
     public void formatter(){
         this.setValorVenda(Routines.floatFormatter(this.valorVendaStr));
-        this.setValorVenda(Routines.floatFormatter(this.freteStr));
+        this.setFrete(Routines.floatFormatter(this.freteStr));
+    }
+
+    public String getMargem(){
+
+        float valor = this.getValorVenda()-(this.getValorVenda()*(this.getImpostoDTO().getValor()/100));
+        valor = valor - this.getFrete();
+        valor = valor - (valor *(this.getTaxaDTO().getPorcentagemFinal()/100));
+        valor = valor - this.getProdutoDTO().getPreco();
+
+        valor = (valor*100)/this.getValorVenda();
+
+        return Routines.percentFormatterFloatToString(valor);
     }
 }

@@ -4,19 +4,24 @@ import com.evendas.evendas.utils.routines.Routines;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 public class ImpostoDTO extends Imposto {
 
     private String valorStr;
 
-    public ImpostoDTO() {
+    public ImpostoDTO() {}
+    public ImpostoDTO(String id) {
+        this.id = UUID.fromString(id);
     }
 
     public ImpostoDTO(Imposto imposto) {
         this.setId(imposto.getId());
         this.setDescricao(imposto.getDescricao());
         this.valorStr = Routines.percentFormatterFloatToString(imposto.getValor());
+        this.setValor(imposto.getValor());
     }
 
     public Imposto originalObject()throws Exception{

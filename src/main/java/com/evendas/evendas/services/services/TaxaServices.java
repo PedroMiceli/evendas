@@ -1,9 +1,11 @@
 package com.evendas.evendas.services.services;
 
+import com.evendas.evendas.models.produto.Produto;
 import com.evendas.evendas.models.taxa.Taxa;
 import com.evendas.evendas.models.taxa.TaxaDTO;
 import com.evendas.evendas.repository.TaxaRepository;
 import com.evendas.evendas.services.interfaces.ITaxaServices;
+import com.evendas.evendas.utils.models.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,21 @@ public class TaxaServices implements ITaxaServices {
             }
             return taxas;
         }catch (Exception ex){
+            throw new Exception(ex.getMessage());
+        }
+    }
+
+    @Override
+    public ArrayList<ResponseObject> listAll(UUID idTaxa) throws Exception {
+        try {
+
+            ArrayList<ResponseObject> dados = new ArrayList<>();
+            for (Taxa taxa: taxaRepository.findAllByDataExcluidoIsNull()) {
+                dados.add(new ResponseObject(taxa.getId(),taxa.getNome()));
+            }
+
+            return dados;
+        } catch (Exception ex) {
             throw new Exception(ex.getMessage());
         }
     }

@@ -5,6 +5,8 @@ import com.evendas.evendas.utils.routines.Routines;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 public class ProdutoDTO extends Produto{
@@ -13,10 +15,17 @@ public class ProdutoDTO extends Produto{
 
     public ProdutoDTO() {}
 
+    public ProdutoDTO(UUID id) {this.setId(id);}
+
+    public ProdutoDTO(String id) {
+        this.id = UUID.fromString(id);
+    }
+
     public ProdutoDTO(Produto produto) {
         this.setId(produto.getId());
         this.setProduto(produto.getProduto());
         this.setPrecoStr(Routines.floatStringFormatter(produto.getPreco()));
+        this.setPreco(produto.getPreco());
         this.setSku(produto.getSku());
     }
 

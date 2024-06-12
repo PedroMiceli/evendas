@@ -1,0 +1,51 @@
+<button type="button" id="btn-deleteAnuncioModal" class="btn" data-bs-toggle="modal" data-bs-target="#deleteAnuncioModal" style="display:none"></button>
+<!-- Modal -->
+<div class="modal fade" id="deleteAnuncioModal" tabindex="-1" aria-labelledby="deleteAnuncioModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteAnuncioModalLabel">
+                    Excluir
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="idAnuncio" name="idAnuncio" value="">
+                <div class="row">
+                    <p>
+                        Deseja realmente excluir este anuncio?
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-danger" onclick="excluirAnuncio()">Excluir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script type="text/javascript">
+    function excluirAnuncio(){
+        loading('show', undefined);
+        $.ajax({
+            url: '/anuncios/delete',
+            type: 'POST',
+            data: { idAnuncio: $('#idAnuncio').val() },
+            success: function (response) {
+                if (response.ok) {
+                    location.reload()
+                } else {
+                    showNotification(response.message, false);
+                }
+                $('#btn-deleteAnuncioModal').click();
+                loading('hide', undefined);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                showNotification('Erro ao excluir!', false);
+                loading('hide', undefined);
+            }
+        });
+    }
+</script>

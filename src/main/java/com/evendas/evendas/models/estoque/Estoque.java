@@ -2,6 +2,7 @@ package com.evendas.evendas.models.estoque;
 
 import com.evendas.evendas.models.BaseEntity;
 import com.evendas.evendas.models.produto.Produto;
+import com.evendas.evendas.utils.routines.Routines;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,7 +32,7 @@ public class Estoque extends BaseEntity {
         else
             this.setDataAlteracao(LocalDateTime.now());
     }
-    public float getValue(){
-        return  this.produto.getPreco()*this.quantidade;
+    public String getValue(){
+        return Routines.floatStringFormatter(this.produto.getPreco()*this.quantidade);
     }
 }

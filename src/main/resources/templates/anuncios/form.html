@@ -1,0 +1,109 @@
+<div class="form-container-fechamento">
+    <form id="form-anuncio" enctype="multipart/form-data" class="col-md-8 col-10 mx-auto">
+        <input type="hidden" id="idAnuncio" name="idAnuncio" th:attr="value=${anuncio?.id}">
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-3">
+                <div class="mb-3">
+                    <label class="form-label" for="produtoDTO">Produto</label>
+                    <select class="form-control" id="produtoDTO" name="produtoDTO">
+                        <option th:each="produto : ${produtos}" th:value="${produto.value}" th:text="${produto.key}"
+                                th:selected="${produto.value == anuncio.produtoDTO?.id}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="mb-3">
+                    <label class="form-label" for="impostoDTO">Imposto</label>
+                    <select class="form-control" id="impostoDTO" name="impostoDTO">
+                        <option th:each="imposto : ${impostos}" th:value="${imposto.value}" th:text="${imposto.key}"
+                                th:selected="${imposto.value == anuncio.impostoDTO?.id}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="mb-3">
+                    <label class="form-label" for="taxaDTO">Taxa</label>
+                    <select class="form-control" id="taxaDTO" name="taxaDTO">
+                        <option th:each="taxa : ${taxas}" th:value="${taxa.value}" th:text="${taxa.key}"
+                                th:selected="${taxa.value == anuncio.taxaDTO?.id}"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-3">
+                <div class="mb-3">
+                    <label class="form-label" for="freteStr">Valor do Frete</label>
+                    <input type="text" class="form-control money-mask" id="freteStr" name="freteStr" th:attr="value=${anuncio?.freteStr}" required>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label" for="valorVendaStr">Valor de Venda</label>
+                    <input type="text" class="form-control money-mask" id="valorVendaStr" name="valorVendaStr" th:attr="value=${anuncio?.valorVendaStr}" required>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" onclick="save()" class="btn btn-success w-25 float-end mt-2 ms-2">
+            Salvar
+        </button>
+        <button type="button" onclick="redirect('/anuncios')" class="btn btn-secondary w-25 float-end mt-2">
+            Cancelar
+        </button>
+    </form>
+</div>
+
+<!-- Scripts -->
+<script type="text/javascript">
+    $(document).ready(function() {
+
+    });
+
+    function save() {
+        if (!$("#form-anuncio").valid()) {
+            return;
+        }
+        loading('show', undefined);
+
+        var dados = {
+            id: $('#idAnuncio').val(),
+            produtoDTO: $('#produtoDTO').val(),
+            taxaDTO: $('#taxaDTO').val(),
+            impostoDTO: $('#impostoDTO').val(),
+            freteStr: $('#freteStr').val(),
+            valorVendaStr: $('#valorVendaStr').val(),
+        };
+
+        var anuncioJson = JSON.stringify(dados);
+
+        var formData = new FormData();
+        formData.append('anuncio', anuncioJson);
+
+        $.ajax({
+            url: '/anuncios/save',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response.ok) {
+                    redirect('/anuncios');
+                }
+                else {
+                    showNotification(response.message, false);
+                    loading('hide', undefined);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                showNotification('Erro ao salvar!', false);
+                loading('hide', undefined);
+            }
+        });
+    }
+
+</script>

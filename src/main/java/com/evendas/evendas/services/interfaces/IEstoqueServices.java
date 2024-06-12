@@ -1,7 +1,6 @@
 package com.evendas.evendas.services.interfaces;
 
-import com.evendas.evendas.models.estoque.Estoque;
-import com.evendas.evendas.models.produto.Produto;
+import com.evendas.evendas.models.estoque.EstoqueDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,13 +9,13 @@ import java.util.UUID;
 @Service
 public interface IEstoqueServices {
 
-    List<Estoque> getAll()throws Exception;
+    List<EstoqueDTO> getAll()throws Exception;
 
-    float getTotalValorEstoque()throws Exception;
+    String getTotalValorEstoque()throws Exception;
 
-    Estoque getOneById(UUID id) throws Exception;
+    EstoqueDTO getOneById(UUID id) throws Exception;
 
     void delete(UUID idEstoque)throws Exception;
 
-    void save(Estoque estoque)throws Exception;
+    void save(EstoqueDTO estoque)throws Exception;
 }

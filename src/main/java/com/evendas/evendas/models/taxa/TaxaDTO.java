@@ -5,6 +5,8 @@ import com.evendas.evendas.utils.routines.Routines;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 public class TaxaDTO extends Taxa{
@@ -12,14 +14,16 @@ public class TaxaDTO extends Taxa{
     private String porcentagemInicialStr;
     private String porcentagemFinalStr;
 
-    public TaxaDTO() {
-    }
+    public TaxaDTO() {}
+
+    public TaxaDTO(String id) {this.setId(UUID.fromString(id));}
 
     public TaxaDTO(Taxa taxa) {
         this.setId(taxa.getId());
         this.setNome(taxa.getNome());
         this.porcentagemInicialStr = Routines.percentFormatterFloatToString(taxa.getPorcentagemInicial());
         this.porcentagemFinalStr = Routines.percentFormatterFloatToString(taxa.getPorcentagemFinal());
+        this.setPorcentagemFinal(taxa.getPorcentagemFinal());
     }
 
     public Taxa originalObject()throws Exception{

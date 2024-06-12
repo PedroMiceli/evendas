@@ -3,6 +3,7 @@ package com.evendas.evendas.controllers.estoque;
 import com.evendas.evendas.controllers.BaseController;
 import com.evendas.evendas.models.BaseEntity;
 import com.evendas.evendas.models.estoque.Estoque;
+import com.evendas.evendas.models.estoque.EstoqueDTO;
 import com.evendas.evendas.models.produto.Produto;
 import com.evendas.evendas.services.interfaces.IEstoqueServices;
 import com.evendas.evendas.services.interfaces.IProdutoServices;
@@ -34,7 +35,7 @@ public class EstoqueController extends BaseController {
     @GetMapping("/create")
     public ModelAndView create(@RequestParam(required = false) UUID idEstoque)throws Exception {
 
-        Estoque estoque = new Estoque();
+        EstoqueDTO estoque = new EstoqueDTO();
         if (idEstoque != null)
             estoque =estoqueServices.getOneById(idEstoque);
 
@@ -59,7 +60,7 @@ public class EstoqueController extends BaseController {
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestParam("estoque") String estoqueJson) throws Exception {
         try {
-            Estoque estoque = new ObjectMapper().readValue(estoqueJson, Estoque.class);
+            EstoqueDTO estoque = new ObjectMapper().readValue(estoqueJson, EstoqueDTO.class);
             estoqueServices.save(estoque);
 
             return responseOk("Salvo com sucesso!");
