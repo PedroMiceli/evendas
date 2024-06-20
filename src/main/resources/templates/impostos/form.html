@@ -1,0 +1,77 @@
+<div class="form-container-fechamento">
+    <form id="form-imposto" enctype="multipart/form-data" class="col-md-8 col-10 mx-auto">
+        <input type="hidden" id="idImposto" name="idImposto" th:attr="value=${imposto?.id}">
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label" for="descricao">Nome</label>
+                    <input type="text" class="form-control" id="descricao" name="descricao" th:attr="value=${imposto?.descricao}" required>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label" for="valor">Valor (Em %)</label>
+                    <input type="text" class="form-control percent-mask" id="valor" name="valor" th:attr="value=${imposto?.valorStr}" required>
+                </div>
+            </div>
+
+        </div>
+
+        <button type="button" onclick="save()" class="btn btn-success w-25 float-end mt-2 ms-2">
+            Salvar
+        </button>
+        <button type="button" onclick="redirect('/calculos')" class="btn btn-secondary w-25 float-end mt-2">
+            Cancelar
+        </button>
+    </form>
+</div>
+
+<!-- Scripts -->
+<script type="text/javascript">
+    $(document).ready(function() {
+
+    });
+
+    function save() {
+        if (!$("#form-imposto").valid()) {
+            return;
+        }
+        console.log($('#idImposto').val())
+        loading('show', undefined);
+
+        var dados = {
+            id: $('#idImposto').val(),
+            descricao: $('#descricao').val(),
+            valorStr: parseFloat($('#valor').val()),
+        };
+
+        var impostoJson = JSON.stringify(dados);
+
+        var formData = new FormData();
+        formData.append('imposto', impostoJson);
+
+        $.ajax({
+            url: '/imposto/save',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response.ok) {
+                    redirect('/calculos');
+                }
+                else {
+                    showNotification(response.message, false);
+                    loading('hide', undefined);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                showNotification('Erro ao salvar!', false);
+                loading('hide', undefined);
+            }
+        });
+    }
+
+</script>

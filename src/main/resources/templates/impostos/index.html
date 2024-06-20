@@ -1,0 +1,36 @@
+<div th:replace="shared/header"></div>
+
+<section class="partial_impostos">
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="row d-flex align-items-center">
+                <div class="col-8">
+                    <h2>Impostos</h2>
+                </div>
+                <div class="col-4 div-btn-new">
+                    <button type="button" onclick="redirectPartial($('.partial_impostos'),'/imposto/create')"
+                            class="btn btn-success float-end">
+                        <i class="fa-solid fa-plus me-1"></i> Adicionar Imposto
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="list_impostos"></section>
+</section>
+<div th:replace="shared/footer"></div>
+
+<script>
+    $(document).ready(function() {
+        obterImpostos();
+    });
+
+    async function obterImpostos() {
+        loading('show', '.list_impostos');
+        $(".list_impostos").load("/imposto/getAll", function(result){
+            definirDataTables($('#table-impostos'));
+            loading('hide', '.list_impostos');
+        });
+    }
+
+</script>

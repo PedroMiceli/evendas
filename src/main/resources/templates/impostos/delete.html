@@ -1,0 +1,51 @@
+<button type="button" id="btn-deleteImpostoModal" class="btn" data-bs-toggle="modal" data-bs-target="#deleteImpostoModal" style="display:none"></button>
+<!-- Modal -->
+<div class="modal fade" id="deleteImpostoModal" tabindex="-1" aria-labelledby="deleteImpostoModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteImpostoModalLabel">
+                    Excluir
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="idImposto" name="idImposto" value="">
+                <div class="row">
+                    <p>
+                        Deseja realmente excluir este imposto?
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-danger" onclick="excluirImposto()">Excluir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script type="text/javascript">
+    function excluirImposto(){
+        loading('show', undefined);
+        $.ajax({
+            url: '/imposto/delete',
+            type: 'POST',
+            data: { idImposto: $('#idImposto').val() },
+            success: function (response) {
+                if (response.ok) {
+                    location.reload()
+                } else {
+                    showNotification(response.message, false);
+                }
+                $('#btn-deleteImpostoModal').click();
+                loading('hide', undefined);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                showNotification('Erro ao excluir!', false);
+                loading('hide', undefined);
+            }
+        });
+    }
+</script>
